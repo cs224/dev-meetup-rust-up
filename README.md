@@ -30,3 +30,22 @@ Have a look at [Rust IDEs](https://forge.rust-lang.org/ides.html) for details ab
     > cd cmake-build-debug
     > cmake ../
     > make
+
+# Application with multi-threading
+
+* [ProgrammingRust/mandelbrot](https://github.com/ProgrammingRust/mandelbrot)
+
+    > git clone https://github.com/ProgrammingRust/mandelbrot.git mandelbrot-single-threaded
+    > cd mandelbrot-single-threaded
+    > git checkout single-threaded
+    > rm Cargo.lock
+    > cargo build --release
+    > time ./target/release/mandelbrot mandel.png 10000x7500 -1.20,0.35 -1,0.20
+
+
+    > git clone https://github.com/ProgrammingRust/mandelbrot.git mandelbrot-rayon
+    > cd mandelbrot-rayon
+    > git checkout rayon
+    > rm Cargo.lock
+    > cargo build --release
+    > time ./target/release/mandelbrot mandel.png 10000x7500 -1.20,0.35 -1,0.20
