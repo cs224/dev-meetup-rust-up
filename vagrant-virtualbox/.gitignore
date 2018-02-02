@@ -2,3 +2,5 @@
 *.box
 *.retry
 run/*
+*.tar.gz
+/jetbrains-activatin-code.txt

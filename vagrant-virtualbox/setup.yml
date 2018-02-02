@@ -29,3 +29,16 @@
     conf:
       # (bash|fish|zsh)
       shell: bash
+
+# ansible-playbook setup.yml --start-at-task="create workspaces directory"
+- name: Setup workspaces
+  hosts: rustnode
+  gather_facts: yes
+  vars_files:
+    - config.yml
+
+  roles:
+    - workspaces
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"

@@ -1,2 +1,100 @@
 ---
 # tasks file for workspaces
+- name: create workspaces directory
+  file:
+    path: /home/vagrant/workspaces
+    state: directory
+    recurse: yes
+
+- name: clone rust dev-meetup workspace
+  git:
+    repo: 'https://github.com/cs224/dev-meetup-rust-up.git'
+    dest: /home/vagrant/workspaces/dev-meetup-rust-up
+    update: no
+
+- name: add atom ppa repository
+  become: true
+  become_method: sudo
+  apt_repository:
+    repo: 'ppa:webupd8team/atom'
+
+- name: Update APT package cache and upgrade
+  become: true
+  become_method: sudo
+  apt:
+    update_cache: yes
+    autoremove: yes
+    upgrade: yes
+
+- name: Install atom
+  become: true
+  become_method: sudo
+  apt:
+    name: "{{ item }}"
+    force: yes
+    state: present
+  with_items:
+    - atom
+    - g++
+
+- name: create bin directory
+  file: path=/home/vagrant/bin state=directory mode=0755 recurse=yes
+
+- name: create install directory
+  file: path=/home/vagrant/install state=directory mode=0755 recurse=yes
+
+- name: Add /home/vagrant/bin directory to .bashrc
+  lineinfile:
+    dest: "/home/vagrant/.bashrc"
+    state: present
+    line: "export PATH=/home/vagrant/bin:$PATH"
+    insertafter: "EOF"
+
+- name: download cmake
+  get_url:
+    url: https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.tar.gz
+    dest: /home/vagrant/cmake-3.10.2-Linux-x86_64.tar.gz
+    owner: vagrant
+    group: vagrant
+
+- name: Unarchive cmake into install directory
+  unarchive:
+    src: /home/vagrant/cmake-3.10.2-Linux-x86_64.tar.gz
+    dest: /home/vagrant/install
+    remote_src: yes
+    creates: /home/vagrant/install/cmake-3.10.2-Linux-x86_64
+
+- name: Add cmake/bin directory to .bashrc
+  lineinfile:
+    dest: "/home/vagrant/.bashrc"
+    state: present
+    line: "export PATH=/home/vagrant/install/cmake-3.10.2-Linux-x86_64/bin:$PATH"
+    insertafter: "EOF"
+
+- name: Unarchive ideaIU into install directory
+  unarchive:
+    src: /vagrant/ideaIU-2017.3.3.tar.gz
+    dest: /home/vagrant/install
+    remote_src: yes
+    creates: /home/vagrant/install/idea-IU-173.4301.25
+
+- name: Add ideaIU directory to .bashrc
+  lineinfile:
+    dest: "/home/vagrant/.bashrc"
+    state: present
+    line: "export PATH=/home/vagrant/install/idea-IU-173.4301.25/bin:$PATH"
+    insertafter: "EOF"
+
+- name: Unarchive CLion into install directory
+  unarchive:
+    src: /vagrant/CLion-2017.3.2.tar.gz
+    dest: /home/vagrant/install
+    remote_src: yes
+    creates: /home/vagrant/install/clion-2017.3.2
+
+- name: Add CLion directory to .bashrc
+  lineinfile:
+    dest: "/home/vagrant/.bashrc"
+    state: present
+    line: "export PATH=/home/vagrant/install/clion-2017.3.2/bin:$PATH"
+    insertafter: "EOF"
