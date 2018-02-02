@@ -1,0 +1,35 @@
+- name: Set timezone
+  timezone: name="{{ timezone }}"
+
+- name: Update timezone
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+
+- name: Correct interfaces
+  template: src=network-interfaces dest=/etc/network/interfaces
+
+- name: Add useDns=no to /etc/ssh/sshd_config
+  lineinfile: dest=/etc/ssh/sshd_config state=present line="UseDNS no" insertafter="EOF"
+
+- name: configure iptables
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: eth0
+    jump: MASQUERADE
+
+- name: configure /etc/hosts with own hostname
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127.0.0.1\s*{{ inventory_hostname }}'
+    line: "{{ hostvars[inventory_hostname]['ansible_host'] }}\t{{ inventory_hostname }}\t{{ inventory_hostname }}"
+    state: present
+
+
+- name: set-up vagrant ssh keys
+  copy: src='{{ lookup('env','HOME') }}/.vagrant.d/insecure_private_key' dest=/home/vagrant/.ssh/id_rsa mode=0600 owner=vagrant group=vagrant
+
+- name: set-up vagrant id_rsa_pub
+  copy: src=/home/vagrant/.ssh/authorized_keys dest=/home/vagrant/.ssh/id_rsa.pub remote_src=yes mode=0600 owner=vagrant group=vagrant
+
+- name: set-up vagrant id_rsa_pub
+  template: src=ssh-config.j2 dest=/home/vagrant/.ssh/config mode=0600 owner=vagrant group=vagrant

@@ -1,0 +1,23 @@
+---
+
+- name: install specific rust targets
+  shell: ~/.cargo/bin/rustup target add {{ item }}
+  with_items: "{{ specific.targets }}"
+
+- name: install nightly toolchain
+  shell: ~/.cargo/bin/rustup toolchain install {{ item }}
+  with_items: "{{ specific.toolchains }}"
+
+- name: install all specific packages
+  shell: ~/.cargo/bin/rustup run {{ toolchain }} cargo install --git {{ url }}
+  with_items: "{{ specific.crates }}"
+
+
+- name: enable madvise
+  shell: echo "madvise" > /sys/kernel/mm/transparent_hugepage/enabled
+  become: true
+  when: conf.parallel
+
+- name: install parallel
+  shell: ~/.cargo/bin/rustup run nightly cargo install parallel
+  when: conf.parallel

@@ -1,0 +1,8 @@
+---
+# handlers file for base
+- name: restart tinyproxy
+  become: yes
+  service: name=tinyproxy state=restarted
+
+- name: update grub
+  command: update-grub

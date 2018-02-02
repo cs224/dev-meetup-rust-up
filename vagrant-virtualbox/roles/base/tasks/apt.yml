@@ -1,0 +1,45 @@
+
+- name: Setup apt lean
+  template: src=apt_lean.j2 dest=/etc/apt/apt.conf.d/01lean
+
+- name: Setup apt proxy
+  template: src=apt_cache.j2 dest=/etc/apt/apt.conf.d/01proxy
+  when: not((lookup('env','http_proxy') is undefined) or (lookup('env','http_proxy') is none) or (lookup('env','http_proxy') | trim == ''))
+
+- name: Add apt-transport-https
+  apt:
+    name: 'apt-transport-https'
+    state: present
+    force: yes
+
+- name: Update APT package cache and upgrade
+  apt:
+    update_cache: yes
+    autoremove: yes
+    upgrade: yes
+
+- name: Install aptitude
+  apt:
+    name: "{{ item }}"
+    force: yes
+    state: present
+  with_items:
+    - aptitude
+
+#
+# https://stackoverflow.com/questions/31845472/how-do-i-install-a-vagrant-linux-box-that-has-a-gui-gnome-kde
+
+- name: Install Packages
+  apt:
+    name: "{{ item }}"
+    force: yes
+    state: present
+  with_items:
+    - emacs
+    - wajig
+    - kubuntu-desktop
+    - virtualbox-guest-dkms
+    - virtualbox-guest-utils
+    - virtualbox-guest-x11
+    - sddm
+    - konsole

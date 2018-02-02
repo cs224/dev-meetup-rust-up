@@ -1,0 +1,39 @@
+---
+
+- name: install rustup
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /home/vagrant/rustup-init.sh
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"
+
+# - debug:
+#     msg: "conf.shell: {{ conf.shell }}"
+#
+- name: install rust
+  shell: /home/vagrant/rustup-init.sh -y
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"
+
+- name: install autocomplete
+  become: true
+  become_method: sudo
+  import_tasks: "autocomplete.yml"
+
+# - name: common
+#   import_tasks: "common.yml"
+#   environment:
+#     http_proxy: "{{ lookup('env','http_proxy') }}"
+#     https_proxy: "{{ lookup('env','https_proxy') }}"
+#
+# - name: specific
+#   import_tasks: "specific.yml"
+#   when: conf.specifics
+#   environment:
+#     http_proxy: "{{ lookup('env','http_proxy') }}"
+#     https_proxy: "{{ lookup('env','https_proxy') }}"

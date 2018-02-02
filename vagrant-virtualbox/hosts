@@ -1,0 +1,4 @@
+master  ansible_host=192.168.56.100 ansible_port=22
+
+[rustnode]
+master  name=master host_extra="master registry"

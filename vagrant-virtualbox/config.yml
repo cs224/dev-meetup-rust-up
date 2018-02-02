@@ -1,0 +1,6 @@
+---
+# You timezone
+timezone: "Europe/Berlin"
+
+# Default values
+debug_level: 2

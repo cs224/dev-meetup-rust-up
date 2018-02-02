@@ -1,0 +1,31 @@
+---
+# https://stackoverflow.com/questions/18195142/safely-limiting-ansible-playbooks-to-a-single-machine
+# https://github.com/Project31/ansible-kubernetes-openshift-pi3
+# https://stackoverflow.com/questions/22129422/running-an-ansible-playbook-on-a-particular-group-of-servers
+# https://stackoverflow.com/questions/34883525/how-do-i-narrow-down-scope-when-running-an-ansible-playbook
+- name: Setup Rust vagrant-virtualbox
+  hosts: rustnode
+  gather_facts: yes
+  become: true
+  become_method: sudo
+  vars_files:
+    - config.yml
+
+  roles:
+    - base
+  vars:
+    profile_proxy: "{{ lookup('env','http_proxy') }}"
+
+# ansible-playbook setup.yml --start-at-task="install rustup"
+- name: Setup Rust language
+  hosts: rustnode
+  gather_facts: yes
+  vars_files:
+    - config.yml
+
+  roles:
+    - abaez.rustup
+  vars:
+    conf:
+      # (bash|fish|zsh)
+      shell: bash

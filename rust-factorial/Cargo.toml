@@ -1,0 +1,11 @@
+[package]
+name = "rust_factorial"
+version = "0.1.0"
+authors = ["Christian Schuhegger <Christian.Schuhegger@gmx.de>"]
+
+# cargo build --lib
+[lib]
+name = "rust_factorial"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
