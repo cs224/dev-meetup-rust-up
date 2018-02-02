@@ -21,8 +21,6 @@
     https_proxy: "{{ lookup('env','https_proxy') }}"
 
 - name: install autocomplete
-  become: true
-  become_method: sudo
   import_tasks: "autocomplete.yml"
 
 # - name: common
