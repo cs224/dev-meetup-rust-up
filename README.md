@@ -76,6 +76,8 @@ Have a look at [Rust IDEs](https://forge.rust-lang.org/ides.html) for details ab
 
 * [ProgrammingRust/mandelbrot](https://github.com/ProgrammingRust/mandelbrot)
 
+Clone the repository and build the singl-threaded version:
+
 
     > git clone https://github.com/ProgrammingRust/mandelbrot.git mandelbrot-single-threaded
     > cd mandelbrot-single-threaded
@@ -93,6 +95,8 @@ sys     0m0.045s
 ```
 
 And now the same with multi-threading:
+
+
     > git clone https://github.com/ProgrammingRust/mandelbrot.git mandelbrot-rayon
     > cd mandelbrot-rayon
     > git checkout rayon
