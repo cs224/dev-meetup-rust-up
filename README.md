@@ -20,16 +20,34 @@ Have a look at [Rust IDEs](https://forge.rust-lang.org/ides.html) for details ab
     > cargo run --bin rust-factorial 5
     > cargo build --lib
 
-## Foreign-Function Interface (FFI): Calling Rust from C and calling C from Rust
+# Foreign-Function Interface (FFI): Calling Rust from C and calling C from Rust
 
-### C++ version
+## Raw C++ version
+
+    > cd cc-factorial
+    > mkdir cmake-build-debug
+    > cd cmake-build-debug
+    > cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" .
+    > cd ..
 
     > cmake --build cmake-build-debug --target cc_factorial -- -j 4
-    > cmake-build-debug/cc_factorial 4
+    > ./cmake-build-debug/cc_factorial 4
 
     > cd cmake-build-debug
     > cmake ../
     > make
+
+## C++ calling Rust
+
+    > cd ffi-rust-from-cc
+    > mkdir cmake-build-debug
+    > cd cmake-build-debug
+    > cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" .
+    > make
+
+## Rust calling C++
+
+
 
 # Application with multi-threading
 

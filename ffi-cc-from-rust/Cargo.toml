@@ -2,5 +2,9 @@
 name = "ffi-cc-from-rust"
 version = "0.1.0"
 authors = ["Christian Schuhegger <christian.schuhegger@gmx.de>"]
+# the following two lines are required exactly as they are
+# this links is required, otherwise cargo tries to build 'rustc --crate-name build_script_build build.rs' rather than 'rustc --crate-name ffi_cc_from_rust src/main.rs'
+links = "libcc_factorial"
+build = "build.rs"
 
 [dependencies]
