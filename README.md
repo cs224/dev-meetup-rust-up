@@ -68,6 +68,9 @@ Have a look at [Rust IDEs](https://forge.rust-lang.org/ides.html) for details ab
 * [generics](https://doc.rust-lang.org/book/first-edition/generics.html)
 
 
+Here is an example with geometric shapes:
+
+
     > cd rust-shapes
     > cargo build
     > cargo test
